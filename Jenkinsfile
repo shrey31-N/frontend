@@ -23,7 +23,7 @@ steps {
 
 sh '''
 
-scp -r * ubuntu@FRONTEND_PRIVATE_IP:/var/www/html/
+scp -r * ubuntu@32.196.165.132:/var/www/html/
 
 '''
 
