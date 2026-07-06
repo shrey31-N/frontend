@@ -1,32 +1,38 @@
 pipeline {
-    agent any
 
-    stages {
+agent any
 
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/shrey31-N/frontend.git'
-            }
-        }
 
-        stage('Deploy Website') {
-            steps {
-                sh '''
-                sudo rm -rf /var/www/html/*
-                sudo cp -r * /var/www/html/
-                '''
-            }
-        }
-    }
+stages {
 
-    post {
-        success {
-            echo 'Website deployed successfully'
-        }
 
-        failure {
-            echo 'Deployment failed'
-        }
-    }
+stage('Clone Code') {
+
+steps {
+
+echo "Pulling code from Github"
+
+}
+
+}
+
+
+stage('Deploy To Nginx') {
+
+steps {
+
+sh '''
+
+scp -r * ubuntu@FRONTEND_PRIVATE_IP:/var/www/html/
+
+'''
+
+}
+
+}
+
+
+}
+
+
 }
