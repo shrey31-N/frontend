@@ -6,28 +6,51 @@ agent any
 stages {
 
 
-stage('Clone Code') {
+stage('Checkout Code') {
 
 steps {
 
-echo "Pulling code from Github"
+echo "Code downloaded from Github"
 
 }
 
 }
 
 
-stage('Deploy To Nginx') {
+
+stage('Deploy To S3') {
+
 
 steps {
 
 sh '''
 
-scp -r * ubuntu@32.196.165.132:/var/www/html/
+aws s3 sync . s3://uniqfrontend --delete
 
 '''
 
 }
+
+}
+
+
+
+stage('CloudFront Cache Clear') {
+
+
+steps {
+
+
+sh '''
+
+aws cloudfront create-invalidation \
+--distribution-id E3H3XP5JGGW4N7 \
+--paths "/*"
+
+'''
+
+}
+
 
 }
 
